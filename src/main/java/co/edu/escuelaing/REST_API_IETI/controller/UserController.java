@@ -1,13 +1,16 @@
 package co.edu.escuelaing.REST_API_IETI.controller;
 
 import co.edu.escuelaing.REST_API_IETI.dto.UserDto;
+import co.edu.escuelaing.REST_API_IETI.entities.User;
 import co.edu.escuelaing.REST_API_IETI.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("api/users")
 public class UserController {
     private final UserService userService;
 
@@ -16,34 +19,31 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAll() {
-        //TODO implement this method using UserService
-        return null;
+    public ResponseEntity<List<User>> getAll() {
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping( "/{id}" )
-    public ResponseEntity<UserDto> findById(@PathVariable String id ) {
-        //TODO implement this method using UserService
-        return null;
+    public ResponseEntity<User> findById(@PathVariable String id ) {
+        return new ResponseEntity<>(userService.findById(id),HttpStatus.OK);
     }
 
 
     @PostMapping
-    public ResponseEntity<UserDto> create( @RequestBody UserDto userDto ) {
-        //TODO implement this method using UserService
-        return null;
+    public ResponseEntity<User> create( @RequestBody UserDto userDto ) {
+        User user = new User(userDto);
+        return new ResponseEntity<>(userService.create(user),HttpStatus.CREATED);
     }
 
     @PutMapping( "/{id}" )
-    public ResponseEntity<UserDto> update( @RequestBody UserDto user, @PathVariable String id ) {
-        //TODO implement this method using UserService
-        return null;
+    public ResponseEntity<?> update( @RequestBody UserDto user, @PathVariable String id ) {
+        User userUp = userService.findById(id);
+        return new ResponseEntity<>(userService.update(userUp,id),HttpStatus.OK);
     }
 
     @DeleteMapping( "/{id}" )
-    public ResponseEntity<Boolean> delete( @PathVariable String id ) {
-        //TODO implement this method using UserService
-        return null;
+    public ResponseEntity<?> delete( @PathVariable String id ) {
+        return new ResponseEntity<>(userService.deleteById(id), HttpStatus.OK);
     }
 }
 

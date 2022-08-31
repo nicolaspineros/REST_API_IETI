@@ -27,12 +27,13 @@ public class UserServiceHashMap implements UserService{
     }
 
     @Override
-    public void deleteById(String id) {
-        users.remove(id);
+    public User deleteById(String id) {
+        return users.remove(id);
     }
 
     @Override
     public User update(User user, String userId) {
-        return users.put(userId,user);
+        users.replace(userId,user);
+        return users.get(userId);
     }
 }
